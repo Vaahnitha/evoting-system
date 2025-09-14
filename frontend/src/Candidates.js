@@ -6,6 +6,9 @@ function Candidates() {
   const [candidates, setCandidates] = useState([]);
   const navigate = useNavigate();
 
+  // Use environment variable for the API base URL
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -13,18 +16,18 @@ function Candidates() {
     }
 
     axios
-      .get("http://127.0.0.1:8000/api/candidates/", {
+      .get(`${API_URL}/candidates/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setCandidates(res.data))
       .catch(() => alert("Error fetching candidates!"));
-  }, [navigate]);
+  }, [navigate, API_URL]);
 
   const voteCandidate = async (id) => {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/vote/",
+        `${API_URL}/vote/`,
         { candidate: id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -38,16 +41,21 @@ function Candidates() {
   return (
     <div style={{ padding: "20px" }}>
       <h2>Candidates</h2>
-      <ul>
-        {candidates.map((c) => (
-          <li key={c.id}>
-            {c.name} ({c.department})
-            <button onClick={() => voteCandidate(c.id)}>Vote</button>
-          </li>
-        ))}
-      </ul>
+      {candidates.length === 0 ? (
+        <p>No candidates found.</p>
+      ) : (
+        <ul>
+          {candidates.map((c) => (
+            <li key={c.id}>
+              {c.name} ({c.department})
+              <button onClick={() => voteCandidate(c.id)}>Vote</button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
 
 export default Candidates;
+
