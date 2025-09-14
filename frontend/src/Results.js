@@ -3,16 +3,18 @@ import axios from "axios";
 
 function Results() {
   const [results, setResults] = useState([]);
+  const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://127.0.0.1:8000/api/results/", {
+      .get(`${API_URL}/results/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setResults(res.data))
       .catch(() => alert("Error fetching results!"));
-  }, []);
+  }, [navigate, API_URL]);
 
   return (
     <div style={{ padding: "20px" }}>
