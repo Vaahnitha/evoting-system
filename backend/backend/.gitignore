@@ -1,5 +1,36 @@
-venv/
+# Python
 __pycache__/
-*.pyc
-node_modules/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+db.sqlite3
+
+# Virtual environment
+venv/
 .env
+
+# Django
+/staticfiles/
+media/
+
+# Node / React
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# VSCode / IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Logs
+*.log
+
+# Coverage / testing
+.coverage
+htmlcov/
+.pytest_cache/
