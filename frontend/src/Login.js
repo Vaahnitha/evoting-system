@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = process.env.REACT_APP_API_URL; // Make sure this is set in your .env
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -11,31 +11,17 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    if (!username || !password) {
-      alert("Please enter username and password");
-      return;
-    }
-
     try {
-      const res = await axios.post(
-        `${API_URL}/token/`,
-        { username, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
+      const res = await axios.post(`${API_URL}/token/`, {
+        username,
+        password,
+      });
       // Save access token to localStorage
       localStorage.setItem("token", res.data.access);
-      localStorage.setItem("refresh", res.data.refresh);
-
-      // Redirect to candidates page
-      navigate("/candidates");
+      navigate("/candidates"); // Navigate to candidates page after login
     } catch (err) {
-      if (err.response && err.response.data.detail) {
-        alert(`Login failed: ${err.response.data.detail}`);
-      } else {
-        alert("Login failed! Check your username/password.");
-      }
+      console.error(err);
+      alert("Login failed! Check your username/password.");
     }
   };
 
@@ -48,6 +34,7 @@ function Login() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
         <br />
         <input
@@ -55,6 +42,7 @@ function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <br />
         <button type="submit">Login</button>
@@ -64,4 +52,3 @@ function Login() {
 }
 
 export default Login;
-
