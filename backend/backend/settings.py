@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-1uus#1k+_^le3ni(+30^j-tq1gg2g_iffq0(v#$m!328l768i9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 
 # Application definition
@@ -80,11 +80,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 import dj_database_url
 
 # Local-first database config: use SQLite when no DATABASE_URL is set.
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/db.sqlite3")
+DB_SSL_REQUIRE = os.getenv("DB_SSL_REQUIRE", "false").lower() == "true"
+
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR}/db.sqlite3",
-        conn_max_age=0,
-        ssl_require=False,
+        default=DATABASE_URL,
+        conn_max_age=int(os.getenv("DB_CONN_MAX_AGE", "0")),
+        ssl_require=DB_SSL_REQUIRE,
     )
 }
 
@@ -148,12 +151,18 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+if FRONTEND_URL:
+    CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
 
 # For Django CSRF protection when calling from the React dev server
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+if FRONTEND_URL:
+    # Ensure scheme is present; Render dashboards often set https
+    CSRF_TRUSTED_ORIGINS.append(FRONTEND_URL)
 
 # Development: ensure HTTP only and no HTTPS enforcement
 SECURE_SSL_REDIRECT = False

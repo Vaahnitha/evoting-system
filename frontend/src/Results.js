@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { resultsAPI } from "./services/api";
+import { useNavigate } from "react-router-dom";
 
 function Results() {
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
-  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .get(`${API_URL}/results/`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    resultsAPI
+      .getResults()
       .then((res) => setResults(res.data))
       .catch(() => alert("Error fetching results!"));
-  }, [navigate, API_URL]);
+  }, [navigate]);
 
   return (
     <div style={{ padding: "20px" }}>

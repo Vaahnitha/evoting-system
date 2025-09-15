@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { authAPI } from "./services/api";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// API base handled in services/api.js via env vars
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -12,10 +12,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/token/`, {
-        username,
-        password,
-      });
+      const res = await authAPI.login({ username, password });
       // Save access token to localStorage
       localStorage.setItem("token", res.data.access);
       navigate("/candidates"); // Navigate to candidates page after login

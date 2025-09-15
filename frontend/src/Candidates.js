@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { candidatesAPI, voteAPI } from "./services/api";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// API base handled in services/api.js via env vars
 
 function Candidates() {
   const [candidates, setCandidates] = useState([]);
@@ -15,10 +15,8 @@ function Candidates() {
       return;
     }
 
-    axios
-      .get(`${API_URL}/candidates/`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    candidatesAPI
+      .getCandidates()
       .then((res) => setCandidates(res.data))
       .catch((err) => {
         console.error(err);
@@ -29,11 +27,7 @@ function Candidates() {
   const voteCandidate = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.post(
-        `${API_URL}/vote/`,
-        { candidate: id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await voteAPI.castVote(id);
       alert("Vote cast successfully!");
       navigate("/results");
     } catch (err) {
