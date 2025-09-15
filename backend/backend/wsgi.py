@@ -23,6 +23,24 @@ try:
         except Exception:
             # Avoid crashing dyno on transient errors
             pass
+        try:
+            # Optional one-time admin seeding controlled via env vars
+            if os.getenv("SEED_ADMIN", "false").lower() == "true":
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+                admin_username = os.getenv("ADMIN_USERNAME", "admin")
+                admin_email = os.getenv("ADMIN_EMAIL", "admin@example.com")
+                admin_password = os.getenv("ADMIN_PASSWORD")
+                if admin_password:
+                    if not User.objects.filter(username=admin_username).exists():
+                        User.objects.create_superuser(
+                            username=admin_username,
+                            email=admin_email,
+                            password=admin_password,
+                        )
+        except Exception:
+            # Ignore seeding errors to not block boot
+            pass
         # Return the application after migrations
         # Fall through to final application assignment below
 except Exception:

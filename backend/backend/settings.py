@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-1uus#1k+_^le3ni(+30^j-tq1gg2g_iffq0(v#$m!328l768i9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS",
+    "evoting-system-h779.onrender.com,localhost,127.0.0.1"
+).split(",")
 
 
 # Application definition

@@ -1,3 +1,14 @@
+Environment configuration
+-------------------------
+
+For production builds (e.g. on Vercel/Netlify or any static host), set:
+
+```
+REACT_APP_RENDER_BACKEND_URL=https://evoting-system-h779.onrender.com/api
+```
+
+For local development no env is required; the app defaults to `http://localhost:8000/api`.
+
 # E-Voting System Frontend
 
 A React-based frontend application for the E-Voting System that connects to a Django REST API backend.

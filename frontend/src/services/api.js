@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 // Compute base URL: env var first, fallback to localhost for dev
-const API_BASE =
-  process.env.REACT_APP_API_URL ||
-  (process.env.REACT_APP_RENDER_BACKEND_URL ? `${process.env.REACT_APP_RENDER_BACKEND_URL}/api` : null) ||
-  (process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : 'http://localhost:8000/api');
+const API_BASE_URL =
+  (process.env.REACT_APP_RENDER_BACKEND_URL) ||
+  (process.env.REACT_APP_API_URL) ||
+  "http://localhost:8000/api";
 
 // Create axios instance with base URL
 const api = axios.create({
-  baseURL: API_BASE,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
