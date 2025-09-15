@@ -3,12 +3,27 @@ import axios from 'axios';
 // Compute base URL: env var first, fallback to localhost for dev
 let API_BASE_URL = (process.env.REACT_APP_RENDER_BACKEND_URL) || (process.env.REACT_APP_API_URL);
 
+// If running the React dev server locally, force localhost backend unless explicitly overridden
+if (typeof window !== 'undefined') {
+  const isLocalFrontend = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  const forceRemote = (process.env.REACT_APP_FORCE_REMOTE || '').toLowerCase() === 'true';
+  if (isLocalFrontend && !forceRemote) {
+    API_BASE_URL = 'http://localhost:8000/api';
+  }
+}
+
 if (!API_BASE_URL) {
   API_BASE_URL = 'http://localhost:8000/api';
   if (typeof window !== 'undefined') {
     // eslint-disable-next-line no-console
     console.warn('[API] No REACT_APP_RENDER_BACKEND_URL/REACT_APP_API_URL set. Using default:', API_BASE_URL);
   }
+}
+
+// Log the effective API base once to aid debugging in dev
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-console
+  console.info('[API] Base URL:', API_BASE_URL);
 }
 
 // Create axios instance with base URL
