@@ -136,6 +136,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
+
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
@@ -147,4 +148,15 @@ CORS_ALLOWED_ORIGINS = [
     "https://evoting-system-psi.vercel.app",
     "https://evoting-system-z3os.onrender.com"
 ]
+
+# Development: ensure HTTP only and no HTTPS enforcement
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+# Explicitly ignore proxy SSL headers in development
+SECURE_PROXY_SSL_HEADER = None
+USE_X_FORWARDED_HOST = False
 
