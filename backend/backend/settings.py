@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-1uus#1k+_^le3ni(+30^j-tq1gg2g_iffq0(v#$m!328l768i9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["evoting-system-z3os.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -79,11 +79,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 import dj_database_url
 
+# Local-first database config: use SQLite when no DATABASE_URL is set.
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR}/db.sqlite3",  # fallback for local dev
-        conn_max_age=600,
-        ssl_require=True
+        default=f"sqlite:///{BASE_DIR}/db.sqlite3",
+        conn_max_age=0,
+        ssl_require=False,
     )
 }
 
@@ -145,8 +146,13 @@ AUTH_USER_MODEL = 'voting.User'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://evoting-system-psi.vercel.app",
-    "https://evoting-system-z3os.onrender.com"
+    "http://127.0.0.1:3000",
+]
+
+# For Django CSRF protection when calling from the React dev server
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 # Development: ensure HTTP only and no HTTPS enforcement
