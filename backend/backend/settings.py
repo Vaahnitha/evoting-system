@@ -143,8 +143,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ),
 }
 
@@ -157,6 +156,19 @@ CORS_ALLOWED_ORIGINS = [
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 if FRONTEND_URL:
     CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
+
+# Allow cross-origin cookies/authorization headers if needed
+CORS_ALLOW_CREDENTIALS = True
+
+# Be explicit about allowed methods/headers for reliability of preflight
+from corsheaders.defaults import default_headers, default_methods
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+    "content-type",
+]
+CORS_ALLOW_METHODS = list(default_methods) + [
+    "PATCH",
+]
 
 # For Django CSRF protection when calling from the React dev server
 CSRF_TRUSTED_ORIGINS = [
