@@ -144,6 +144,6 @@ AUTH_USER_MODEL = 'voting.User'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://evoting-system-psi.vercel.app/"
+    "https://evoting-system-psi.vercel.app"
 ]
 
