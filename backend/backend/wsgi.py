@@ -38,8 +38,14 @@ try:
                             email=admin_email,
                             password=admin_password,
                         )
-        except Exception:
-            # Ignore seeding errors to not block boot
+                        print(f"Created admin user: {admin_username}")
+                    else:
+                        print(f"Admin user {admin_username} already exists")
+                else:
+                    print("ADMIN_PASSWORD not set, skipping admin user creation")
+        except Exception as e:
+            # Log seeding errors but don't block boot
+            print(f"Admin seeding error: {e}")
             pass
         # Return the application after migrations
         # Fall through to final application assignment below

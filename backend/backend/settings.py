@@ -81,15 +81,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 import dj_database_url
+from dotenv import load_dotenv
 
-# Local-first database config: use SQLite when no DATABASE_URL is set.
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/db.sqlite3")
+# Load environment variables from .env file
+load_dotenv()
+
+# Database configuration with better defaults
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    # Default to SQLite for local development if no DATABASE_URL is provided
+    DATABASE_URL = f"sqlite:///{BASE_DIR}/db.sqlite3"
+
 DB_SSL_REQUIRE = os.getenv("DB_SSL_REQUIRE", "false").lower() == "true"
 
 DATABASES = {
     "default": dj_database_url.config(
         default=DATABASE_URL,
-        conn_max_age=int(os.getenv("DB_CONN_MAX_AGE", "0")),
+        conn_max_age=int(os.getenv("DB_CONN_MAX_AGE", "600")),
         ssl_require=DB_SSL_REQUIRE,
     )
 }

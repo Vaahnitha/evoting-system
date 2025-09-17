@@ -3,6 +3,10 @@ import os
 from pathlib import Path
 from importlib import import_module
 import dj_database_url
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import base (dev) settings
 from .settings import *  # noqa: F401,F403
