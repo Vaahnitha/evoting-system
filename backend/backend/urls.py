@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import (
@@ -23,7 +24,21 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+def root_view(_request):
+    return JsonResponse({
+        "message": "E-Voting API is running",
+        "endpoints": {
+            "admin": "/admin/",
+            "api_base": "/api/",
+            "token_obtain": "/api/token/",
+            "token_refresh": "/api/token/refresh/",
+        },
+        "docs": "Visit /admin/ for the Django admin or /api/ for API routes."
+    })
+
+
 urlpatterns = [
+    path('', root_view, name='root'),
     path('admin/', admin.site.urls),
     path('api/', include('voting.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
