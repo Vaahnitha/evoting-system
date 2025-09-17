@@ -15,8 +15,9 @@ try:
     from django.core.management import call_command
     # Only attempt when explicitly enabled or when on Render
     if os.getenv("AUTO_MIGRATE", "true").lower() == "true" or os.getenv("RENDER"):
-        # Defer execution until settings are loaded
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+        # Respect externally provided settings module (e.g., production)
+        settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'backend.settings')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
         application = get_wsgi_application()
         try:
             call_command('migrate', interactive=False, run_syncdb=True)
@@ -53,7 +54,8 @@ except Exception:
     # If importing management or calling migrate fails, continue normally
     pass
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'backend.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_wsgi_application()
 
