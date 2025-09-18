@@ -21,7 +21,7 @@ services:
       - key: ALLOWED_HOSTS
         value: evoting-system-h779.onrender.com
       - key: CORS_ALLOWED_ORIGINS
-        value: https://evoting-system-rho.vercel.app,https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app
+        value: https://evoting-system-rho.vercel.app,https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app,https://evoting-system-nvyxmh6r7-vaahnithas-projects.vercel.app
       - key: DEBUG
         value: false
       - key: AUTO_MIGRATE

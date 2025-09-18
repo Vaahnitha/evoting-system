@@ -34,14 +34,22 @@ else:
         "http://localhost:3000",
         "https://evoting-system-rho.vercel.app",
         "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app",
+        "https://evoting-system-nvyxmh6r7-vaahnithas-projects.vercel.app",
     ])  # type: ignore
+
+# Add wildcard support for Vercel domains
+CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://evoting-system-.*-vaahnithas-projects\.vercel\.app$",
+    r"^https://evoting-system-rho\.vercel\.app$",
+]
 
 # CSRF trusted origins: prefix with https:// when needed
 CSRF_TRUSTED_ORIGINS = [
     (f"https://{h}" if not h.startswith("http") else h)
     for h in ALLOWED_HOSTS
     if h not in ("localhost", "127.0.0.1")
-] + ["https://evoting-system-rho.vercel.app", "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app"]
+] + ["https://evoting-system-rho.vercel.app", "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app", "https://evoting-system-nvyxmh6r7-vaahnithas-projects.vercel.app"]
 
 # Database (parse DATABASE_URL)
 DATABASES = {

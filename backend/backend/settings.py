@@ -162,6 +162,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://evoting-system-rho.vercel.app",
     "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app",
+    "https://evoting-system-nvyxmh6r7-vaahnithas-projects.vercel.app",
+]
+
+# Add wildcard support for Vercel domains
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://evoting-system-.*-vaahnithas-projects\.vercel\.app$",
+    r"^https://evoting-system-rho\.vercel\.app$",
 ]
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 if FRONTEND_URL:
@@ -186,6 +193,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://evoting-system-rho.vercel.app",
     "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app",
+    "https://evoting-system-nvyxmh6r7-vaahnithas-projects.vercel.app",
 ]
 if FRONTEND_URL:
     # Ensure scheme is present; Render dashboards often set https
