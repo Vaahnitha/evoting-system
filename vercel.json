@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/frontend/build/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/build/$1"
+    }
+  ],
+  "env": {
+    "REACT_APP_RENDER_BACKEND_URL": "https://evoting-system-h779.onrender.com/api",
+    "REACT_APP_API_URL": "https://evoting-system-h779.onrender.com/api",
+    "REACT_APP_FORCE_REMOTE": "true"
+  }
+}
