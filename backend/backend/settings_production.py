@@ -33,6 +33,7 @@ else:
     CORS_ALLOWED_ORIGINS = globals().get("CORS_ALLOWED_ORIGINS", [
         "http://localhost:3000",
         "https://evoting-system-rho.vercel.app",
+        "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app",
     ])  # type: ignore
 
 # CSRF trusted origins: prefix with https:// when needed
@@ -40,7 +41,7 @@ CSRF_TRUSTED_ORIGINS = [
     (f"https://{h}" if not h.startswith("http") else h)
     for h in ALLOWED_HOSTS
     if h not in ("localhost", "127.0.0.1")
-] + ["https://evoting-system-rho.vercel.app"]
+] + ["https://evoting-system-rho.vercel.app", "https://evoting-system-a2tkfmhhp-vaahnithas-projects.vercel.app"]
 
 # Database (parse DATABASE_URL)
 DATABASES = {
