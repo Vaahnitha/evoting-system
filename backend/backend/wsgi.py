@@ -51,6 +51,7 @@ try:
         
         # Optional one-time data import from local database
         try:
+            print(f"IMPORT_LOCAL_DATA env var: {os.getenv('IMPORT_LOCAL_DATA', 'false')}")
             if os.getenv("IMPORT_LOCAL_DATA", "false").lower() == "true":
                 from voting.models import Candidate, Vote
                 from django.contrib.auth import get_user_model
@@ -58,8 +59,10 @@ try:
                 
                 User = get_user_model()
                 
-                # Check if data already exists
-                if Candidate.objects.count() == 0 and User.objects.filter(is_superuser=False).count() == 0:
+                # Check if candidates exist (more specific check)
+                candidate_count = Candidate.objects.count()
+                print(f"Current candidate count: {candidate_count}")
+                if candidate_count == 0:
                     print("Importing local data...")
                     
                     with transaction.atomic():
@@ -146,7 +149,7 @@ try:
                         
                         print("Local data import completed!")
                 else:
-                    print("Data already exists, skipping import")
+                    print(f"Data already exists ({candidate_count} candidates), skipping import")
                     
         except Exception as e:
             # Log import errors but don't block boot
