@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils import timezone
 
 # Create your views here.
 
@@ -67,6 +68,62 @@ class ResultsView(APIView):
             'total_votes': total_votes,
             'candidates': results
         })
+
+
+# Test endpoint for debugging
+class TestView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        """Test endpoint to verify API connectivity"""
+        return Response({
+            'message': 'API is working!',
+            'timestamp': timezone.now().isoformat(),
+            'user_agent': request.META.get('HTTP_USER_AGENT', 'Unknown'),
+            'origin': request.META.get('HTTP_ORIGIN', 'Unknown'),
+        })
+
+    def post(self, request):
+        """Test POST endpoint"""
+        return Response({
+            'message': 'POST request received!',
+            'data': request.data,
+            'timestamp': timezone.now().isoformat(),
+        })
+
+
+# Reset admin password endpoint
+class ResetAdminPasswordView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request):
+        """Reset admin password to defaultpassword123"""
+        try:
+            from django.contrib.auth import get_user_model
+            
+            User = get_user_model()
+            
+            # Find admin user
+            admin_user = User.objects.filter(username='admin').first()
+            if not admin_user:
+                return Response({
+                    'error': 'Admin user not found'
+                }, status=status.HTTP_404_NOT_FOUND)
+            
+            # Reset password
+            admin_user.set_password('defaultpassword123')
+            admin_user.save()
+            
+            return Response({
+                'message': 'Admin password reset successfully',
+                'username': 'admin',
+                'password': 'defaultpassword123'
+            })
+            
+        except Exception as e:
+            return Response({
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # Manual data import endpoint (for debugging)
