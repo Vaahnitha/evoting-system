@@ -160,6 +160,7 @@ AUTH_USER_MODEL = 'voting.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://evoting-system-rho.vercel.app",
 ]
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 if FRONTEND_URL:
@@ -182,6 +183,7 @@ CORS_ALLOW_METHODS = list(default_methods) + [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://evoting-system-rho.vercel.app",
 ]
 if FRONTEND_URL:
     # Ensure scheme is present; Render dashboards often set https
