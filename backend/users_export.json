@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "username": "Vaahnitha",
+    "email": "vaahnithachowdary.ch@gmail.com",
+    "first_name": "",
+    "last_name": "",
+    "role": "employee",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-12 15:58:52.357142",
+    "last_login": "2025-09-15 15:40:42.839580"
+  },
+  {
+    "id": 7,
+    "username": "employee1",
+    "email": "",
+    "first_name": "",
+    "last_name": "",
+    "role": "employee",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-14 08:18:52.654540",
+    "last_login": null
+  },
+  {
+    "id": 8,
+    "username": "Admin",
+    "email": "admin@gmail.com",
+    "first_name": "",
+    "last_name": "",
+    "role": "employee",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-15 16:47:04.111568",
+    "last_login": null
+  },
+  {
+    "id": 9,
+    "username": "localadmin",
+    "email": "localadmin@example.com",
+    "first_name": "",
+    "last_name": "",
+    "role": "employee",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-15 16:54:26.448132",
+    "last_login": null
+  },
+  {
+    "id": 10,
+    "username": "admin",
+    "email": "admin@example.com",
+    "first_name": "",
+    "last_name": "",
+    "role": "employee",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-17 04:57:22.834552",
+    "last_login": null
+  }
+]

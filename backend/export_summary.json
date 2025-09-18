@@ -1,0 +1,19 @@
+{
+  "export_date": "2025-09-18T13:03:40.946407",
+  "candidates_count": 4,
+  "users_count": 5,
+  "votes_count": 3,
+  "candidates": [
+    "john doe",
+    "jane doe",
+    "alex b",
+    "cow"
+  ],
+  "users": [
+    "Vaahnitha",
+    "employee1",
+    "Admin",
+    "localadmin",
+    "admin"
+  ]
+}

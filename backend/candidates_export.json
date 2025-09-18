@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "john doe",
+    "department": "eng"
+  },
+  {
+    "id": 2,
+    "name": "jane doe",
+    "department": "hr"
+  },
+  {
+    "id": 3,
+    "name": "alex b",
+    "department": "pm"
+  },
+  {
+    "id": 4,
+    "name": "cow",
+    "department": "moo"
+  }
+]
