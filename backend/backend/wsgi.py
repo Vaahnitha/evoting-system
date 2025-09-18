@@ -48,6 +48,111 @@ try:
             # Log seeding errors but don't block boot
             print(f"Admin seeding error: {e}")
             pass
+        
+        # Optional one-time data import from local database
+        try:
+            if os.getenv("IMPORT_LOCAL_DATA", "false").lower() == "true":
+                from voting.models import Candidate, Vote
+                from django.contrib.auth import get_user_model
+                from django.db import transaction
+                
+                User = get_user_model()
+                
+                # Check if data already exists
+                if Candidate.objects.count() == 0 and User.objects.filter(is_superuser=False).count() == 0:
+                    print("Importing local data...")
+                    
+                    with transaction.atomic():
+                        # Import candidates
+                        candidates_data = [
+                            {'id': 1, 'name': 'john doe', 'department': 'eng'},
+                            {'id': 2, 'name': 'jane doe', 'department': 'hr'},
+                            {'id': 3, 'name': 'alex b', 'department': 'pm'},
+                            {'id': 4, 'name': 'cow', 'department': 'moo'},
+                        ]
+                        
+                        for candidate_data in candidates_data:
+                            candidate, created = Candidate.objects.get_or_create(
+                                id=candidate_data['id'],
+                                defaults={
+                                    'name': candidate_data['name'],
+                                    'department': candidate_data['department'],
+                                }
+                            )
+                            if created:
+                                print(f"Imported candidate: {candidate.name}")
+                        
+                        # Import users
+                        users_data = [
+                            {
+                                'id': 1, 'username': 'Vaahnitha', 'email': 'vaahnithachowdary.ch@gmail.com',
+                                'first_name': '', 'last_name': '', 'role': 'employee',
+                                'is_staff': True, 'is_active': True,
+                            },
+                            {
+                                'id': 7, 'username': 'employee1', 'email': '',
+                                'first_name': '', 'last_name': '', 'role': 'employee',
+                                'is_staff': False, 'is_active': True,
+                            },
+                            {
+                                'id': 8, 'username': 'Admin', 'email': 'admin@gmail.com',
+                                'first_name': '', 'last_name': '', 'role': 'employee',
+                                'is_staff': True, 'is_active': True,
+                            },
+                            {
+                                'id': 9, 'username': 'localadmin', 'email': 'localadmin@example.com',
+                                'first_name': '', 'last_name': '', 'role': 'employee',
+                                'is_staff': True, 'is_active': True,
+                            },
+                            {
+                                'id': 10, 'username': 'admin', 'email': 'admin@example.com',
+                                'first_name': '', 'last_name': '', 'role': 'employee',
+                                'is_staff': True, 'is_active': True,
+                            },
+                        ]
+                        
+                        for user_data in users_data:
+                            if not User.objects.filter(username=user_data['username']).exists():
+                                user = User.objects.create_user(
+                                    username=user_data['username'],
+                                    email=user_data['email'],
+                                    first_name=user_data['first_name'],
+                                    last_name=user_data['last_name'],
+                                    role=user_data['role'],
+                                    is_staff=user_data['is_staff'],
+                                    is_active=user_data['is_active'],
+                                )
+                                user.set_password('defaultpassword123')
+                                user.save()
+                                print(f"Imported user: {user.username}")
+                        
+                        # Import votes
+                        votes_data = [
+                            {'voter_id': 7, 'candidate_id': 1},  # employee1 -> john doe
+                            {'voter_id': 1, 'candidate_id': 1},  # Vaahnitha -> john doe
+                            {'voter_id': 9, 'candidate_id': 2},  # localadmin -> jane doe
+                        ]
+                        
+                        for vote_data in votes_data:
+                            try:
+                                voter = User.objects.get(id=vote_data['voter_id'])
+                                candidate = Candidate.objects.get(id=vote_data['candidate_id'])
+                                
+                                if not Vote.objects.filter(voter=voter).exists():
+                                    Vote.objects.create(voter=voter, candidate=candidate)
+                                    print(f"Imported vote: {voter.username} -> {candidate.name}")
+                            except (User.DoesNotExist, Candidate.DoesNotExist):
+                                pass
+                        
+                        print("Local data import completed!")
+                else:
+                    print("Data already exists, skipping import")
+                    
+        except Exception as e:
+            # Log import errors but don't block boot
+            print(f"Data import error: {e}")
+            pass
+        
         # Return the application after migrations
         # Fall through to final application assignment below
 except Exception:

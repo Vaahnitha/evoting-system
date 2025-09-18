@@ -22,7 +22,30 @@ This guide will help you sync your local database data to the Render production 
 - Vaahnitha voted for john doe
 - localadmin voted for jane doe
 
-## Method 1: Using Django Management Command (Recommended)
+## Method 1: Automatic Import on Startup (Recommended for Free Tier)
+
+### Step 1: Deploy with Updated Configuration
+1. Commit and push your changes to GitHub
+2. Redeploy your Render service to pick up the updated `render.yaml` with PostgreSQL connection and `IMPORT_LOCAL_DATA=true`
+
+### Step 2: Automatic Import
+The data will be automatically imported when your application starts up! No shell access needed.
+
+**What happens:**
+- When Render deploys your app, it will run migrations first
+- Then it will automatically import all your local data
+- The import only runs if the database is empty (safe to run multiple times)
+- You'll see import messages in the Render logs
+
+### Step 3: Verify Import
+1. Check your API endpoint: `https://evoting-system-z3os.onrender.com/api/candidates/`
+2. You should see all 4 candidates
+3. Try logging in with any of the user credentials
+4. Check Render logs to see import messages
+
+## Method 2: Using Django Management Command (Requires Shell Access)
+
+**Note:** This method requires Render shell access, which is not available on the free tier.
 
 ### Step 1: Deploy with Updated Configuration
 1. Commit and push your changes to GitHub
@@ -45,7 +68,7 @@ This will import all the data using hardcoded values (no JSON files needed).
 2. You should see all 4 candidates
 3. Try logging in with any of the user credentials
 
-## Method 2: Using JSON Files (Alternative)
+## Method 3: Using JSON Files (Alternative)
 
 ### Step 1: Upload JSON Files to Render
 1. Upload the exported JSON files (`candidates_export.json`, `users_export.json`, `votes_export.json`) to your Render service
@@ -58,7 +81,7 @@ This will import all the data using hardcoded values (no JSON files needed).
 python manage.py import_local_data
 ```
 
-## Method 3: Manual Database Import (Advanced)
+## Method 4: Manual Database Import (Advanced)
 
 If you have direct access to your PostgreSQL database:
 
