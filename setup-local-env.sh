@@ -19,7 +19,7 @@ ADMIN_PASSWORD=admin123
 SEED_ADMIN=true
 
 # Django Configuration
-DJANGO_SECRET_KEY=django-insecure-1uus#1k+_^le3ni(+30^j-tq1gg2g_iffq0(v#$m!328l768i9
+DJANGO_SECRET_KEY=django-insecure-dev-key-change-in-production
 DEBUG=true
 
 # Local Configuration

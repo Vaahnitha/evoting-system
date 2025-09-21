@@ -18,7 +18,7 @@ echo ADMIN_PASSWORD=admin123
 echo SEED_ADMIN=true
 echo.
 echo # Django Configuration
-echo DJANGO_SECRET_KEY=django-insecure-1uus#1k+_^le3ni(+30^j-tq1gg2g_iffq0(v#$m!328l768i9
+echo DJANGO_SECRET_KEY=django-insecure-dev-key-change-in-production
 echo DEBUG=true
 echo.
 echo # Local Configuration

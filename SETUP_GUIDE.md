@@ -24,6 +24,9 @@ chmod +x setup-local-env.sh
    ```bash
    # Copy the example and edit as needed
    cp env.example .env
+   
+   # Generate a secure secret key for production
+   python generate-secret-key.py
    ```
 
 3. **Run migrations:**
@@ -70,6 +73,7 @@ gunicorn backend.wsgi:application
 **Environment Variables:**
 ```
 DJANGO_SETTINGS_MODULE=backend.settings_production
+DJANGO_SECRET_KEY=your-secure-secret-key-here
 ADMIN_USERNAME=admin
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=your_secure_password_here
@@ -78,6 +82,11 @@ ALLOWED_HOSTS=your-app-name.onrender.com
 CORS_ALLOWED_ORIGINS=https://your-frontend-domain.com
 DEBUG=false
 DATABASE_URL=postgresql://username:password@hostname:port/database
+```
+
+**Important:** Generate a secure `DJANGO_SECRET_KEY` using:
+```bash
+python generate-secret-key.py
 ```
 
 ### Step 3: Deploy Frontend
@@ -179,11 +188,25 @@ python backend/manage.py setup_admin
 
 ## 🔐 Security Notes
 
-1. **Never commit `.env` files** to version control
-2. **Use strong passwords** for production
-3. **Keep `DEBUG=False`** in production
-4. **Use HTTPS** for production deployments
-5. **Regularly update dependencies**
+### Environment Variables Security
+1. **Never commit `.env` files** to version control - they're automatically ignored
+2. **Use the `generate-secret-key.py` script** to create secure secret keys
+3. **Use different secret keys** for different environments (dev/staging/production)
+4. **Keep all sensitive data** in environment variables, never in code
+
+### Production Security
+1. **Use strong passwords** for production (at least 12 characters)
+2. **Keep `DEBUG=False`** in production
+3. **Use HTTPS** for production deployments
+4. **Regularly update dependencies**
+5. **Monitor logs** for suspicious activity
+6. **Use secure database connections** (SSL enabled)
+
+### Development Security
+1. **Use development-specific keys** (not production keys)
+2. **Keep DEBUG=True** only for local development
+3. **Use strong admin passwords** even in development
+4. **Don't share `.env` files** between team members
 
 ## 📞 Support
 
