@@ -694,8 +694,3 @@ This E-Voting MVP System provides a solid foundation for digital elections with 
 
 For questions or support, refer to the troubleshooting section or consult the existing documentation files in the repository.
 
----
-
-**Document Version**: 1.0  
-**Last Updated**: January 2024  
-**Maintained By**: Development Team
